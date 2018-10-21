@@ -28,6 +28,8 @@ var SerialPort = require('serialport'); // serial library
 var Readline = SerialPort.parsers.Readline; // read serial data as lines
 //-- Addition:
 var NodeWebcam = require( "node-webcam" );// load the webcam module
+var roastMe = require('roastme');
+var fr = require('face-detectify');
 
 //---------------------- WEBAPP SERVER SETUP ---------------------------------//
 // use express to create the simple webapp
@@ -35,6 +37,7 @@ app.use(express.static('public')); // find pages in public directory
 
 // check to make sure that the user provides the serial port for the Arduino
 // when running the server
+
 if (!process.argv[2]) {
   console.error('Usage: node ' + process.argv[1] + ' SERIAL_PORT');
   process.exit(1);
@@ -64,7 +67,7 @@ var opts = { //These Options define how the webcam is operated.
     //Which camera to use
     //Use Webcam.list() for results
     //false for default device
-    device: false,
+    device: 'USB2.0 PC CAMERA',
     // [location, buffer, base64]
     // Webcam.CallbackReturnTypes
     callbackReturn: "location",
@@ -72,6 +75,7 @@ var opts = { //These Options define how the webcam is operated.
     verbose: false
 };
 var Webcam = NodeWebcam.create( opts ); //starting up the webcam
+
 //----------------------------------------------------------------------------//
 
 
@@ -117,11 +121,29 @@ io.on('connect', function(socket) {
     /// This way we can use it as the filename.
     var imageName = new Date().toString().replace(/[&\/\\#,+()$~%.'":*?<>{}\s-]/g, '');
 
-    console.log('making a making a picture at'+ imageName); // Second, the name is logged to the console.
+    console.log('Taking a picture at '+ imageName); // Second, the name is logged to the console.
 
     //Third, the picture is  taken and saved to the `public/`` folder
     NodeWebcam.capture('public/'+imageName, opts, function( err, data ) {
-    io.emit('newPicture',(imageName+'.jpg')); ///Lastly, the new name is send to the client web browser.
+
+      var roast = false;
+
+      fr.fromFile('public/' + imageName + '.jpg').then(data => {
+
+        if (data.data.length > 0) {
+          console.log('face detected');
+          roast = roastMe.random();
+        };
+
+        var data = {
+          'img': imageName +'.jpg',
+          'roast': roast
+        };
+
+        io.emit('newPicture', data); ///Lastly, the new name is send to the client web browser.
+
+      });
+
     /// The browser will take this new name and load the picture from the public folder.
   });
 

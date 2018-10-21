@@ -4,14 +4,49 @@
         <meta charset="utf8"/>
         <title>Interaction Engine - Hello You!</title>
         <script src="/socket.io/socket.io.js"></script>
+
+        <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+
+        <style>
+          body {
+            text-align: center;
+            font-family: "Muli", sans-serif;
+          }
+
+          #buttonContainer {
+            display: flex;
+            justify-content: center;
+          }
+
+          button {
+            font-size: 20px;
+            margin: 5px;
+            padding: 10px;
+            width: 200px;
+            border: none;
+            font-family: "Muli";
+          }
+
+          p {
+            font-size: 30px;
+            color: blue;
+            width: 60%;
+            margin: 10px auto;
+          }
+        </style>
     </head>
     <body>
         <body bgcolor="#000">
-        <button onclick="ledON()">LED ON</button>
-        <button onclick="ledOFF()">LED OFF</button>
-        <button onclick="takePicture()">Take a picture</button>
+
+        <div id="buttonContainer">
+          <button onclick="ledON()">LED ON</button>
+          <button onclick="ledOFF()">LED OFF</button>
+          <button onclick="takePicture()">Take a picture</button>
+        </div>
+
       </br>
         <img src="" id= "pictureContainer" alt="WebCam image  made by the webserver">
+        <p id="roast"></p>
         <script src="client.js"></script>
     </body>
 </html>

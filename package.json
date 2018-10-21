@@ -18,8 +18,10 @@
   "homepage": "https://github.com/FAR-Lab/distant-pictures#readme",
   "dependencies": {
     "express": "^4.16.2",
+    "face-detectify": "^1.0.0",
+    "node-webcam": "^0.4.5",
+    "roastme": "0.0.1",
     "serialport": "^6.0.4",
-    "socket.io": "^2.0.4",
-    "node-webcam": "^0.4.3"
+    "socket.io": "^2.0.4"
   }
 }

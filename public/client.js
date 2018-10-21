@@ -31,9 +31,15 @@ function takePicture(){
 
 //-- Addition: This function receives the new image name and applies it to html element.
 
-socket.on('newPicture', function(msg) {
-  document.getElementById('pictureContainer').src=msg;
+socket.on('newPicture', function(data) {
+  document.getElementById('pictureContainer').src=data.img;
+  if (data.roast) {
+    document.getElementById('roast').innerHTML = data.roast;
+  } else {
+    document.getElementById('roast').innerHTML = "No face detected";
+  }
 });
+
 // read the data from the message that the server sent and change the
 // background of the webpage based on the data in the message
 socket.on('server-msg', function(msg) {
@@ -43,8 +49,10 @@ socket.on('server-msg', function(msg) {
     case "light":
       document.body.style.backgroundColor = "white";
       console.log("white")
+      takePicture();
       break;
     case "dark":
+      document.getElementById('pictureContainer').src="loading.gif";
       document.body.style.backgroundColor = "black";
       console.log("black");
       break;
