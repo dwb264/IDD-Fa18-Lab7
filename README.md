@@ -37,3 +37,7 @@ For the second part, roasting the user, it turns out there is a convenient node 
 For the modified code, please see the modified branch of this repository.
 
 **b. Upload a video of your working modified project**
+
+[Link to video](https://youtu.be/1bQQbKBaeWA)
+
+Please note I also improved the styling of the buttons and added a loading animation while the photo is processing!
